@@ -23,6 +23,13 @@ export class Favorites {
     ]
   }
 
+  delete(user) {
+    const filteredEntries = this.entries.filter(entry => entry.login !== user.login)
+
+    this.entries = filteredEntries
+    this.update()
+  }
+
 }
 
 // classe que vai criar a visualização e enventos do HTML
@@ -47,6 +54,15 @@ export class FavoritesView extends Favorites {
       row.querySelector('.user span').textContent = user.login
       row.querySelector('.repositories').textContent = user.public_repos
       row.querySelector('.followers').textContent = user.followers
+
+
+      row.querySelector('.remove').onclick = () => {
+        const isOk = confirm('Deseja deletar essa linha?')
+        
+        if(isOk) {
+          this.delete(user)
+        }
+      }
 
       this.tbody.append(row)
     })
